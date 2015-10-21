@@ -1,0 +1,29 @@
+{
+  "name": "frontend-nanodegree-arcade-game",
+  "version": "1.0.0",
+  "description": "Classic arcade game Frogger",
+  "private": true,
+  "main": "index.html",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milanfort/frontend-nanodegree-arcade-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/milanfort/frontend-nanodegree-arcade-game/issues"
+  },
+  "homepage": "https://github.com/milanfort/frontend-nanodegree-arcade-game#readme",
+  "keywords": [
+    "frogger",
+    "udacity",
+    "front-end",
+    "nanodegree"
+  ],
+  "author": "Milan Fort <http://www.milanfort.com/>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}
