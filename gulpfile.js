@@ -9,6 +9,7 @@ var prefix = require('gulp-autoprefixer');
 var rename = require('gulp-rename');
 var htmlbuild = require('gulp-htmlbuild');
 var htmlclean = require('gulp-htmlclean');
+var imagemin = require('gulp-imagemin');
 
 var source = 'src';
 var dest = 'dist';
@@ -30,6 +31,12 @@ gulp.task('css', function () {
             cascade: false
         }))
         .pipe(gulp.dest(dest + '/css/'))
+});
+
+gulp.task('images', function () {
+    return gulp.src(source + '/images/*.png')
+        .pipe(imagemin())
+        .pipe(gulp.dest(dest + '/images/'));
 });
 
 gulp.task('js', function () {
@@ -61,6 +68,6 @@ gulp.task('lint', function () {
         .pipe(jslint())
 });
 
-gulp.task('default', ['css', 'js', 'html'], function () {
+gulp.task('default', ['css', 'images', 'js', 'html'], function () {
     console.log('Building %s version %s', project.name, project.version);
 });
