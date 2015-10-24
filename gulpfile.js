@@ -7,9 +7,13 @@ var jslint = require('gulp-jslint');
 var minify = require('gulp-minify-css');
 var prefix = require('gulp-autoprefixer');
 var rename = require('gulp-rename');
+var htmlbuild = require('gulp-htmlbuild');
+var htmlclean = require('gulp-htmlclean');
 
 var source = 'src';
 var dest = 'dist';
+var jsFile = 'main.min.js';
+var cssFile = 'main.min.css';
 
 gulp.task('clean', function () {
     del([
@@ -20,7 +24,7 @@ gulp.task('clean', function () {
 gulp.task('css', function () {
     return gulp.src(source + '/css/main.css')
         .pipe(minify())
-        .pipe(rename('main.min.css'))
+        .pipe(rename(cssFile))
         .pipe(prefix({
             browsers: ['last 2 versions', '> 2%'],
             cascade: false
@@ -31,9 +35,25 @@ gulp.task('css', function () {
 gulp.task('js', function () {
     return gulp.src(source + '/js/**/*.js')
         //.pipe(jslint())
-        .pipe(concat('main.min.js'))
+        .pipe(concat(jsFile))
         .pipe(uglify())
         .pipe(gulp.dest(dest + '/js/'));
+});
+
+gulp.task('html', function () {
+    return gulp.src(source + '/*.html')
+        .pipe(htmlbuild({
+            js: htmlbuild.preprocess.js(function (block) {
+                block.write('js/' + jsFile);
+                block.end();
+            }),
+            css: htmlbuild.preprocess.css(function (block) {
+                block.write('css/' + cssFile);
+                block.end();
+            })
+        }))
+        .pipe(htmlclean())
+        .pipe(gulp.dest(dest))
 });
 
 gulp.task('lint', function () {
@@ -41,6 +61,6 @@ gulp.task('lint', function () {
         .pipe(jslint())
 });
 
-gulp.task('default', ['css', 'js'], function () {
+gulp.task('default', ['css', 'js', 'html'], function () {
     console.log('Building %s version %s', project.name, project.version);
 });
