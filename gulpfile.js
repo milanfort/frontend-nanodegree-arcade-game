@@ -16,10 +16,8 @@ var dest = 'dist';
 var jsFile = 'main.min.js';
 var cssFile = 'main.min.css';
 
-gulp.task('clean', function () {
-    del([
-        dest
-    ]);
+gulp.task('clean', function (done) {
+    del([dest], done);
 });
 
 gulp.task('css', function () {
