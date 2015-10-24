@@ -8,33 +8,36 @@ var minify = require('gulp-minify-css');
 var prefix = require('gulp-autoprefixer');
 var rename = require('gulp-rename');
 
+var source = 'app';
+var dest = 'dist';
+
 gulp.task('clean', function () {
     del([
-        'dist'
+        dest
     ]);
 });
 
 gulp.task('css', function () {
-    return gulp.src('app/css/main.css')
+    return gulp.src(source + '/css/main.css')
         .pipe(minify())
         .pipe(rename('main.min.css'))
         .pipe(prefix({
             browsers: ['last 2 versions', '> 2%'],
             cascade: false
         }))
-        .pipe(gulp.dest('dist/css/'))
+        .pipe(gulp.dest(dest + '/css/'))
 });
 
 gulp.task('js', function () {
-    return gulp.src('app/js/**/*.js')
+    return gulp.src(source + '/js/**/*.js')
         //.pipe(jslint())
         .pipe(concat('main.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('dist/js/'));
+        .pipe(gulp.dest(dest + '/js/'));
 });
 
 gulp.task('lint', function () {
-    return gulp.src('app/js/app.js')
+    return gulp.src(source + '/js/app.js')
         .pipe(jslint())
 });
 
