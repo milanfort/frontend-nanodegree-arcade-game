@@ -8,7 +8,7 @@ var minify = require('gulp-minify-css');
 var prefix = require('gulp-autoprefixer');
 var rename = require('gulp-rename');
 
-var source = 'app';
+var source = 'src';
 var dest = 'dist';
 
 gulp.task('clean', function () {
