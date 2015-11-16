@@ -10,6 +10,8 @@ var rename = require('gulp-rename');
 var htmlbuild = require('gulp-htmlbuild');
 var htmlclean = require('gulp-htmlclean');
 var imagemin = require('gulp-imagemin');
+var wiredep = require('wiredep').stream;
+var mainBowerFiles = require('main-bower-files');
 
 var source = 'src';
 var dest = 'dist';
@@ -18,6 +20,12 @@ var cssFile = 'main.min.css';
 
 gulp.task('clean', function (done) {
     del([dest], done);
+});
+
+gulp.task('bower', function() {
+    return gulp.src(source + '/*.html')
+        .pipe(wiredep())
+        .pipe(gulp.dest(source))
 });
 
 gulp.task('css', function () {
@@ -38,7 +46,9 @@ gulp.task('images', function () {
 });
 
 gulp.task('js', function () {
-    return gulp.src(source + '/js/**/*.js')
+    var glob = mainBowerFiles('**/*.js');
+    glob.push(source + '/js/**/*.js');
+    return gulp.src(glob)
         //.pipe(jslint())
         .pipe(concat(jsFile))
         .pipe(uglify())
