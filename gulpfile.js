@@ -1,6 +1,7 @@
 var project = require('./package.json');
 var del = require('del');
 var gulp = require('gulp');
+var deporder = require('gulp-deporder');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var jslint = require('gulp-jslint');
@@ -50,6 +51,7 @@ gulp.task('js', function () {
     glob.push(source + '/js/**/*.js');
     return gulp.src(glob)
         //.pipe(jslint())
+        .pipe(deporder())
         .pipe(concat(jsFile))
         .pipe(uglify())
         .pipe(gulp.dest(dest + '/js/'));
