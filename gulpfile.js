@@ -10,6 +10,7 @@ var prefix = require('gulp-autoprefixer');
 var rename = require('gulp-rename');
 var htmlbuild = require('gulp-htmlbuild');
 var htmlclean = require('gulp-htmlclean');
+var a11y = require('gulp-a11y');
 var imagemin = require('gulp-imagemin');
 var wiredep = require('wiredep').stream;
 var mainBowerFiles = require('main-bower-files');
@@ -73,10 +74,18 @@ gulp.task('html', function () {
         .pipe(gulp.dest(dest))
 });
 
+gulp.task('a11y', function () {
+    return gulp.src(source + '/*.html')
+        .pipe(a11y())
+        .pipe(a11y.reporter());
+});
+
 gulp.task('lint', function () {
     return gulp.src(source + '/js/app.js')
         .pipe(jslint())
 });
+
+gulp.task('test', ['lint', 'a11y']);
 
 gulp.task('default', ['css', 'images', 'js', 'html'], function () {
     console.log('Building %s version %s', project.name, project.version);
