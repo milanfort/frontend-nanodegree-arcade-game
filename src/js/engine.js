@@ -1,5 +1,5 @@
 
-/* requires: resources.js app.js */
+/* requires: logging.js resources.js app.js */
 
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
@@ -184,4 +184,10 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+
+    //TODO: figure out a better place for logging initialization
+    logging.init();
+    logging.enable();
+    //logging.setLevel(log4javascript.Level.INFO);
+    global.logger = logging.getLogger();
 })(this);

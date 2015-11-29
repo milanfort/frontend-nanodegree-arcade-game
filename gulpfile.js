@@ -81,7 +81,7 @@ gulp.task('a11y', function () {
 });
 
 gulp.task('lint', function () {
-    return gulp.src(source + '/js/app.js')
+    return gulp.src(source + '/js/logging.js')
         .pipe(jslint())
 });
 

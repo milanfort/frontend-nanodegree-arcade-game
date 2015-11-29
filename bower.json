@@ -24,7 +24,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "log4javascript-1.4.13": "~1.4.13"
   },
   "overrides": {
     "bootstrap": {
@@ -34,6 +35,9 @@
         "dist/js/bootstrap.js",
         "dist/fonts/*"
       ]
+    },
+    "log4javascript-1.4.13": {
+      "main": "log4javascript_uncompressed.js"
     }
   }
 }
