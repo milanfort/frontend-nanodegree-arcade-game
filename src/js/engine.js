@@ -1,5 +1,5 @@
 
-/* requires: resources.js */
+/* requires: resources.js app.js */
 
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),

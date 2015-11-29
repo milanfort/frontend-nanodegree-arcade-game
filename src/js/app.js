@@ -1,5 +1,5 @@
 
-/* requires: resources.js engine.js */
+/* requires: resources.js */
 
 // Enemies our player must avoid
 var Enemy = function() {
