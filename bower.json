@@ -37,7 +37,7 @@
       ]
     },
     "log4javascript-1.4.13": {
-      "main": "log4javascript_uncompressed.js"
+      "main": "log4javascript.js"
     }
   }
 }

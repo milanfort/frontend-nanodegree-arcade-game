@@ -1,5 +1,5 @@
 
-/* requires: logging.js resources.js app.js */
+/* requires: config.js logging.js resources.js app.js */
 
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
@@ -28,8 +28,8 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime;
 
-    canvas.width = 505;
-    canvas.height = 606;
+    canvas.width = config.canvasWidth;
+    canvas.height = config.canvasHeight;
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -118,8 +118,8 @@ var Engine = (function(global) {
                 'images/grass-block.png',   // Row 1 of 2 of grass
                 'images/grass-block.png'    // Row 2 of 2 of grass
             ],
-            numRows = 6,
-            numCols = 5,
+            numRows = config.rowCount,
+            numCols = config.colCount,
             row, col;
 
         /* Loop through the number of rows and columns we've defined above
@@ -138,7 +138,6 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
-
 
         renderEntities();
     }
@@ -178,6 +177,19 @@ var Engine = (function(global) {
         'images/char-boy.png'
     ]);
     Resources.onReady(init);
+
+    // This listens for key presses and sends the keys to your
+    // Player.handleInput() method. You don't need to modify this.
+    document.addEventListener('keyup', function(e) {
+        var allowedKeys = {
+            37: 'left',
+            38: 'up',
+            39: 'right',
+            40: 'down'
+        };
+
+        player.handleInput(allowedKeys[e.keyCode]);
+    });
 
     /* Assign the canvas' context object to the global variable (the window
      * object when run in a browser) so that developer's can use it more easily
