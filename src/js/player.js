@@ -28,6 +28,8 @@ var Player = function () {
     this.posY = 0;
 };
 
+Player.VERTICAL_ALIGNMENT = 12;
+
 Player.prototype = Object.create(Entity.prototype);
 
 Player.prototype.constructor = Player;
@@ -35,10 +37,8 @@ Player.prototype.constructor = Player;
 Player.prototype.update = function () {
     'use strict';
 
-    var VERTICAL_ALIGNMENT = 12;
-
     this.x = config.fieldWidth * this.posX;
-    this.y = config.fieldHeight * (config.rowCount - this.posY - 1) - VERTICAL_ALIGNMENT;
+    this.y = config.fieldHeight * (config.rowCount - this.posY - 1) - Player.VERTICAL_ALIGNMENT;
 };
 
 Player.prototype.handleInput = function (direction) {

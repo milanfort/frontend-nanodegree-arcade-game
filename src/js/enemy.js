@@ -32,11 +32,17 @@ var Enemy = function (row, speed) {
         throw new Error("Invalid row: " + row);
     }
 
-    var VERTICAL_ALIGNMENT = 23;
-    Entity.call(this, 'images/enemy-bug.png', 0, row * config.fieldHeight - VERTICAL_ALIGNMENT);
+    Entity.call(
+        this,
+        'images/enemy-bug.png',
+        0,
+        row * config.fieldHeight - Enemy.VERTICAL_ALIGNMENT
+    );
     this.row = row;
     this.speed = speed;
 };
+
+Enemy.VERTICAL_ALIGNMENT = 23;
 
 Enemy.prototype = Object.create(Entity.prototype);
 
