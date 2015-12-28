@@ -2,6 +2,33 @@
 /* requires: config.js logging.js resources.js */
 
 /**
+ * Common superclass for all entities in the game.
+ *
+ * @constructor
+ */
+var Entity = function(sprite, x, y) {
+    this.sprite = sprite;
+    this.x = x;
+    this.y = y;
+};
+
+/**
+ * Update the position/state of this entity.
+ * Any movement must be multiplied by the dt parameter
+ * to ensure the game runs at the same speed for all computers.
+ *
+ * @param dt a time delta between ticks.
+ */
+Entity.prototype.update = function(dt) {};
+
+/**
+ * Draw this entity on the screen.
+ */
+Entity.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+/**
  * Enemy the player must avoid.
  * Each enemy is placed on a certain row,
  * denoted by the row constructor parameter.
@@ -18,24 +45,16 @@ var Enemy = function (row, speed) {
     }
 
     var VERTICAL_ALIGNMENT = 23;
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+    Entity.call(this, 'images/enemy-bug.png', 0, row * config.fieldHeight - VERTICAL_ALIGNMENT);
     this.row = row;
     this.speed = speed;
-
-    this.x = 0;
-    this.y = row * config.fieldHeight - VERTICAL_ALIGNMENT;
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+Enemy.prototype = Object.create(Entity.prototype);
 
+Enemy.prototype.constructor = Enemy;
+
+Enemy.prototype.update = function(dt) {
     this.x += this.speed * dt;
 
     if (this.x > config.canvasWidth) {
@@ -43,31 +62,27 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+/**
+ * Player in the game. The goal for the player
+ * is to get to the other side of the board.
+ *
+ * @constructor
+ */
 var Player = function() {
-    this.sprite = 'images/char-boy.png';
-    this.x = 0;
-    this.y = 0;
+    Entity.call(this, 'images/char-boy.png', 0, 0);
     this.posX = 2;
     this.posY = 0;
 };
+
+Player.prototype = Object.create(Entity.prototype);
+
+Player.prototype.constructor = Player;
 
 Player.prototype.update = function() {
     var VERTICAL_ALIGNMENT = 12;
 
     this.x = config.fieldWidth * this.posX;
     this.y = config.fieldHeight * (config.rowCount - this.posY - 1) - VERTICAL_ALIGNMENT;
-};
-
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 Player.prototype.handleInput = function(direction) {
