@@ -81,7 +81,17 @@ gulp.task('a11y', function () {
 });
 
 gulp.task('lint', function () {
-    return gulp.src(source + '/js/logging.js')
+    var files = [];
+    files.push(source + '/js/config.js');
+    files.push(source + '/js/logging.js');
+    //files.push(source + '/js/resources.js');
+    files.push(source + '/js/entity.js');
+    files.push(source + '/js/enemy.js');
+    files.push(source + '/js/player.js');
+    //files.push(source + '/js/app.js');
+    //files.push(source + '/js/engine.js');
+
+    return gulp.src(files)
         .pipe(jslint())
 });
 

@@ -12,7 +12,7 @@
 
 /* requires: config.js logging.js resources.js entity.js */
 
-/*global Entity */
+/*global config, Entity */
 
 /**
  * Enemy the player must avoid.
@@ -26,6 +26,8 @@
  * @constructor
  */
 var Enemy = function (row, speed) {
+    'use strict';
+
     if (row < 1 || row > config.rowCount - 3) {
         throw new Error("Invalid row: " + row);
     }
@@ -40,7 +42,9 @@ Enemy.prototype = Object.create(Entity.prototype);
 
 Enemy.prototype.constructor = Enemy;
 
-Enemy.prototype.update = function(dt) {
+Enemy.prototype.update = function (dt) {
+    'use strict';
+
     this.x += this.speed * dt;
 
     if (this.x > config.canvasWidth) {
