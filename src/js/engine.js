@@ -1,5 +1,5 @@
 
-/* requires: config.js logging.js resources.js app.js */
+/* requires: config.js logging.js resources.js entity.js enemy.js player.js app.js */
 
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
