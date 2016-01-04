@@ -88,6 +88,7 @@ gulp.task('lint', function () {
     files.push(source + '/js/entity.js');
     files.push(source + '/js/enemy.js');
     files.push(source + '/js/rock.js');
+    files.push(source + '/js/gem.js');
     files.push(source + '/js/player.js');
     //files.push(source + '/js/app.js');
     //files.push(source + '/js/engine.js');

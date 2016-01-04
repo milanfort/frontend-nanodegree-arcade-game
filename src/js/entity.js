@@ -27,6 +27,12 @@ var Entity = function (sprite, x, y) {
     this.y = y;
 };
 
+Entity.prototype.isVisible = function () {
+    'use strict';
+
+    return true;
+};
+
 /**
  * Update the position/state of this entity.
  * Any movement must be multiplied by the dt parameter
@@ -46,5 +52,7 @@ Entity.prototype.update = function (dt) {
 Entity.prototype.render = function () {
     'use strict';
 
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    if (this.isVisible()) {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
 };

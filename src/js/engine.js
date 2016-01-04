@@ -1,5 +1,5 @@
 
-/* requires: config.js logging.js resources.js entity.js enemy.js rock.js player.js app.js */
+/* requires: config.js logging.js resources.js entity.js enemy.js rock.js gem.js player.js app.js */
 
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
@@ -188,7 +188,10 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        'images/Rock.png'
+        'images/Rock.png',
+        'images/gem-blue.png',
+        'images/gem-green.png',
+        'images/gem-orange.png'
     ]);
     Resources.onReady(init);
 

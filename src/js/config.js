@@ -22,5 +22,7 @@ var config = {
 
     fieldHeight: 83,
 
-    fieldWidth: 101
+    fieldWidth: 101,
+
+    gemFrequency: 5
 };
