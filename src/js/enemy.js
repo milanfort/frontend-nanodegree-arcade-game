@@ -12,7 +12,7 @@
 
 /* requires: config.js logging.js resources.js entity.js */
 
-/*global config, Entity */
+/*global logger, config, Entity */
 
 /**
  * Enemy the player must avoid.
@@ -44,6 +44,8 @@ var Enemy = function (row, speed) {
 
 Enemy.VERTICAL_ALIGNMENT = 23;
 
+Enemy.HIT_THRESHOLD = 0.1;
+
 Enemy.prototype = Object.create(Entity.prototype);
 
 Enemy.prototype.constructor = Enemy;
@@ -56,4 +58,23 @@ Enemy.prototype.update = function (dt) {
     if (this.x > config.canvasWidth) {
         this.x = 0;
     }
+};
+
+Enemy.prototype.collidesWith = function (x, y) {
+    'use strict';
+
+    var collisionRow = config.rowCount - y - 1,
+        approxColumn = Math.ceil((this.x / config.fieldWidth) * 10) / 10;
+
+    logger.debug("(%d, %d) vs. [%f, %d]", x, collisionRow, approxColumn, this.row);
+
+    if (this.row === collisionRow) {
+        if (Math.floor(approxColumn + Enemy.HIT_THRESHOLD) === x
+                || Math.ceil(approxColumn - Enemy.HIT_THRESHOLD) === x) {
+            logger.debug("Hit enemy in row %d", this.row);
+            return true;
+        }
+    }
+
+    return false;
 };

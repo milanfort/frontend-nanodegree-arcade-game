@@ -24,15 +24,25 @@ var Player = function () {
     'use strict';
 
     Entity.call(this, 'images/char-boy.png', 0, 0);
-    this.posX = 2;
-    this.posY = 0;
+    this.reset();
 };
 
 Player.VERTICAL_ALIGNMENT = 12;
 
+Player.START_POS_X = 2;
+
+Player.START_POS_Y = 0;
+
 Player.prototype = Object.create(Entity.prototype);
 
 Player.prototype.constructor = Player;
+
+Player.prototype.reset = function () {
+    'use strict';
+
+    this.posX = Player.START_POS_X;
+    this.posY = Player.START_POS_Y;
+};
 
 Player.prototype.update = function () {
     'use strict';
