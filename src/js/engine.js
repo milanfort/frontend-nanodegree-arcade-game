@@ -1,5 +1,5 @@
 
-/* requires: config.js logging.js resources.js entity.js enemy.js player.js app.js */
+/* requires: config.js logging.js resources.js entity.js enemy.js rock.js player.js app.js */
 
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
@@ -94,8 +94,8 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
+        allEntities.forEach(function(entity) {
+            entity.update(dt);
         });
         player.update();
     }
@@ -103,8 +103,8 @@ var Engine = (function(global) {
     function checkCollisions() {
         var collision = false;
 
-        allEnemies.forEach(function(enemy) {
-            collision = collision || enemy.collidesWith(player.posX, player.posY);
+        allEntities.forEach(function(entity) {
+            collision = collision || entity.collidesWith(player.posX, player.posY);
         });
 
         if (collision) {
@@ -163,8 +163,8 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
+        allEntities.forEach(function(entity) {
+            entity.render();
         });
 
         player.render();
@@ -187,7 +187,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Rock.png'
     ]);
     Resources.onReady(init);
 
