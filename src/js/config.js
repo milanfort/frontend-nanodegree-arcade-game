@@ -24,5 +24,9 @@ var config = {
 
     fieldWidth: 101,
 
-    gemFrequency: 5
+    gemFrequency: 5,
+
+    minEnemySpeed: 50,
+
+    maxEnemySpeed: 300
 };

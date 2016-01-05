@@ -56,7 +56,7 @@ Enemy.prototype.update = function (dt) {
     this.x += this.speed * dt;
 
     if (this.x > config.canvasWidth) {
-        this.x = 0;
+        this.x = -config.fieldWidth;
     }
 };
 

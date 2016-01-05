@@ -1,5 +1,5 @@
 
-/* requires: config.js logging.js resources.js entity.js enemy.js rock.js gem.js player.js app.js */
+/* requires: config.js logging.js resources.js entity.js enemy.js rock.js gem.js player.js status.js */
 
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
@@ -26,7 +26,10 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        allEntities = [],
+        gem = new Gem(),
+        player = new Player();
 
     canvas.width = config.canvasWidth;
     canvas.height = config.canvasHeight;
@@ -83,6 +86,8 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
+        checkWaterReached();
+        checkGemCollected();
         checkCollisions();
     }
 
@@ -97,7 +102,53 @@ var Engine = (function(global) {
         allEntities.forEach(function(entity) {
             entity.update(dt);
         });
+        gem.update();
         player.update();
+    }
+
+    //TODO: move to separate util module
+    var randomInt = function (min, max) {
+        'use strict';
+
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    function checkWaterReached() {
+        if (player.posY == config.rowCount - 1) {
+            gameStatus.increaseLevel();
+            var rockCount = Math.min(Math.floor(gameStatus.getLevel() / 2), config.colCount - 1);
+            var enemyCount = Math.min(Math.ceil(gameStatus.getLevel() / 2), (config.rowCount - 3) * 2);
+
+            allEntities = [];
+            var i;
+            for (i = 1; i <= rockCount; i++) {
+                logger.debug("Adding rock");
+                allEntities.push(
+                    new Rock(
+                        randomInt(0, config.colCount - 1),
+                        randomInt(1, config.rowCount - 3)
+                    )
+                )
+            }
+            for (i = 1; i <= enemyCount; i++) {
+                logger.debug("Adding enemy");
+                allEntities.push(
+                    new Enemy(
+                        randomInt(1, config.rowCount - 3),
+                        randomInt(config.minEnemySpeed, config.maxEnemySpeed)
+                    )
+                )
+            }
+
+            player.reset();
+        }
+    }
+
+    function checkGemCollected() {
+        if (gem.collidesWith(player.posX, player.posY)) {
+            gem.hide();
+            gameStatus.increaseGems();
+        }
     }
 
     function checkCollisions() {
@@ -108,8 +159,8 @@ var Engine = (function(global) {
         });
 
         if (collision) {
-            logger.warn("BANG!");
-            player.reset();
+            logger.info("Game over; score: %d", gameStatus.getScore());
+            reset();
         }
     }
 
@@ -160,6 +211,8 @@ var Engine = (function(global) {
      * on your enemy and player entities within app.js
      */
     function renderEntities() {
+        gem.render();
+
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
@@ -168,6 +221,7 @@ var Engine = (function(global) {
         });
 
         player.render();
+        gameStatus.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -175,7 +229,10 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        allEntities = [new Enemy(2, config.minEnemySpeed)];
+        gameStatus.init();
+        gem.hide();
+        player.reset();
     }
 
     /* Go ahead and load all of the images we know we're going to need to

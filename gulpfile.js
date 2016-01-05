@@ -84,13 +84,13 @@ gulp.task('lint', function () {
     var files = [];
     files.push(source + '/js/config.js');
     files.push(source + '/js/logging.js');
+    files.push(source + '/js/status.js');
     //files.push(source + '/js/resources.js');
     files.push(source + '/js/entity.js');
     files.push(source + '/js/enemy.js');
     files.push(source + '/js/rock.js');
     files.push(source + '/js/gem.js');
     files.push(source + '/js/player.js');
-    //files.push(source + '/js/app.js');
     //files.push(source + '/js/engine.js');
 
     return gulp.src(files)

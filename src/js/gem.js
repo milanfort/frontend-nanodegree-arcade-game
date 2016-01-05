@@ -23,8 +23,7 @@ var Gem = function () {
     'use strict';
 
     Entity.call(this, 'images/gem-green.png', 0, 0);
-    this.reset();
-    this.visible = false;
+    this.hide();
 };
 
 Gem.VERTICAL_ALIGNMENT = 25;
@@ -53,6 +52,13 @@ Gem.prototype.reset = function () {
     this.visible =  !this.visible;
     this.column = Gem.randomInt(0, config.colCount - 1);
     this.row = Gem.randomInt(1, config.rowCount - 3);
+};
+
+Gem.prototype.hide = function () {
+    'use strict';
+
+    this.reset();
+    this.visible = false;
 };
 
 Gem.prototype.update = function () {
