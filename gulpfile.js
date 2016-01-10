@@ -82,6 +82,7 @@ gulp.task('a11y', function () {
 
 gulp.task('lint', function () {
     var files = [];
+    files.push(source + '/js/frogger.js');
     files.push(source + '/js/config.js');
     files.push(source + '/js/logging.js');
     files.push(source + '/js/util.js');
