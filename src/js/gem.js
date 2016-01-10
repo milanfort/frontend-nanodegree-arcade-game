@@ -10,9 +10,9 @@
  regexp : true, todo    : true
  */
 
-/* requires: config.js logging.js resources.js entity.js */
+/* requires: config.js logging.js util.js resources.js entity.js */
 
-/*global config, Entity */
+/*global util, config, Entity */
 
 /**
  * Gem that the player can optionally collect.
@@ -30,14 +30,6 @@ Gem.VERTICAL_ALIGNMENT = 25;
 
 Gem.AVAILABLE_COLORS = ['blue', 'green', 'orange'];
 
-/** Returns a random integer between min (inclusive) and max (inclusive). */
-//TODO: put into separate util module
-Gem.randomInt = function (min, max) {
-    'use strict';
-
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 Gem.prototype = Object.create(Entity.prototype);
 
 Gem.prototype.constructor = Gem;
@@ -45,13 +37,13 @@ Gem.prototype.constructor = Gem;
 Gem.prototype.reset = function () {
     'use strict';
 
-    var newColor = Gem.AVAILABLE_COLORS[Gem.randomInt(0, Gem.AVAILABLE_COLORS.length - 1)];
+    var newColor = Gem.AVAILABLE_COLORS[util.randomInt(0, Gem.AVAILABLE_COLORS.length - 1)];
 
     this.sprite = 'images/gem-' + newColor + '.png';
     this.lastTime = Date.now();
     this.visible =  !this.visible;
-    this.column = Gem.randomInt(0, config.colCount - 1);
-    this.row = Gem.randomInt(1, config.rowCount - 3);
+    this.column = util.randomInt(0, config.colCount - 1);
+    this.row = util.randomInt(1, config.rowCount - 3);
 };
 
 Gem.prototype.hide = function () {

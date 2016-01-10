@@ -1,5 +1,5 @@
 
-/* requires: config.js logging.js resources.js entity.js enemy.js rock.js gem.js player.js status.js */
+/* requires: config.js logging.js util.js resources.js entity.js enemy.js rock.js gem.js player.js status.js */
 
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
@@ -106,13 +106,6 @@ var Engine = (function(global) {
         player.update();
     }
 
-    //TODO: move to separate util module
-    var randomInt = function (min, max) {
-        'use strict';
-
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
-
     function checkWaterReached() {
         if (player.posY == config.rowCount - 1) {
             gameStatus.increaseLevel();
@@ -125,8 +118,8 @@ var Engine = (function(global) {
                 logger.debug("Adding rock");
                 allEntities.push(
                     new Rock(
-                        randomInt(0, config.colCount - 1),
-                        randomInt(1, config.rowCount - 3)
+                        util.randomInt(0, config.colCount - 1),
+                        util.randomInt(1, config.rowCount - 3)
                     )
                 )
             }
@@ -134,8 +127,8 @@ var Engine = (function(global) {
                 logger.debug("Adding enemy");
                 allEntities.push(
                     new Enemy(
-                        randomInt(1, config.rowCount - 3),
-                        randomInt(config.minEnemySpeed, config.maxEnemySpeed)
+                        util.randomInt(1, config.rowCount - 3),
+                        util.randomInt(config.minEnemySpeed, config.maxEnemySpeed)
                     )
                 )
             }
