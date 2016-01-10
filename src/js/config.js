@@ -10,7 +10,7 @@
  regexp : true, todo    : true
  */
 
-var config = {
+var config = Object.freeze({
 
     canvasWidth: 505,
 
@@ -29,4 +29,4 @@ var config = {
     minEnemySpeed: 50,
 
     maxEnemySpeed: 300
-};
+});
