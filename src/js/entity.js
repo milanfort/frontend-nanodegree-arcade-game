@@ -10,49 +10,58 @@
  regexp : true, todo    : true
  */
 
-/* requires: config.js logging.js resources.js */
+/* requires: frogger.js config.js logging.js resources.js */
 
-/*global ctx, Resources */
+/*global jQuery, frogger, ctx, Resources */
 
-/**
- * Common superclass for all entities in the game.
- *
- * @constructor
- */
-var Entity = function (sprite, x, y) {
+/** Common superclass for all entities in the game. */
+frogger.entity = (function ($) {
     'use strict';
 
-    this.sprite = sprite;
-    this.x = x;
-    this.y = y;
-};
+    var update,
+        render,
+        proto,
+        defaults,
+        create;
 
-Entity.prototype.isVisible = function () {
-    'use strict';
+    /**
+     * Update the position/state of this entity.
+     * Any movement must be multiplied by the dt parameter
+     * to ensure the game runs at the same speed for all computers.
+     *
+     * @param dt a time delta between ticks.
+     */
+    update = function (dt) {
+        return dt; //trick to bypass jslint unused warning
+    };
 
-    return true;
-};
+    /** Draw this entity on the screen. */
+    render = function () {
+        if (this.visible) {
+            ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        }
+    };
 
-/**
- * Update the position/state of this entity.
- * Any movement must be multiplied by the dt parameter
- * to ensure the game runs at the same speed for all computers.
- *
- * @param dt a time delta between ticks.
- */
-Entity.prototype.update = function (dt) {
-    'use strict';
+    proto = {
+        update: update,
+        render: render
+    };
 
-    return dt; //trick to bypass jslint unused warning
-};
+    defaults = {
+        x: 0,
+        y: 0,
+        visible: true,
+        sprite: 'images/default.png'
+    };
 
-/**
- * Draw this entity on the screen.
- */
-Entity.prototype.render = function () {
-    'use strict';
+    /**
+     *
+     * @param spec constructor parameters; see defaults for a complete
+     * list of named parameters with their corresponding default values.
+     */
+    create = function (spec) {
+        return $.extend(Object.create(proto), defaults, spec);
+    };
 
-    if (this.isVisible()) {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    }
-};
+    return { create: create };
+}(jQuery));

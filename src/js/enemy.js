@@ -12,69 +12,90 @@
 
 /* requires: config.js logging.js resources.js entity.js */
 
-/*global logger, config, Entity */
+/*global jQuery, config, frogger */
 
 /**
  * Enemy the player must avoid.
  * Each enemy is placed on a certain row,
- * denoted by the row constructor parameter.
- * Each enemy moves at a certain speed,
- * denoted by the speed constructor parameter.
- *
- * @param row which row this enemy moves on.
- * @param speed how fast this enemy moves.
- * @constructor
+ * and moves at a certain speed.
  */
-var Enemy = function (row, speed) {
+frogger.enemy = (function ($) {
     'use strict';
 
-    if (row < 1 || row > config.rowCount - 3) {
-        throw new Error("Invalid row: " + row);
-    }
+    var VERTICAL_ALIGNMENT = 23,
+        HIT_THRESHOLD = 0.1,
+        init,
+        logger,
+        update,
+        collidesWith,
+        proto,
+        defaults,
+        create;
 
-    Entity.call(
-        this,
-        'images/enemy-bug.png',
-        0,
-        row * config.fieldHeight - Enemy.VERTICAL_ALIGNMENT
-    );
-    this.row = row;
-    this.speed = speed;
-};
+    init = function (enemyLogger) {
+        logger = enemyLogger;
+        logger.debug("Enemy module initialized");
+    };
 
-Enemy.VERTICAL_ALIGNMENT = 23;
+    update = function (dt) {
+        this.x += this.speed * dt;
 
-Enemy.HIT_THRESHOLD = 0.1;
-
-Enemy.prototype = Object.create(Entity.prototype);
-
-Enemy.prototype.constructor = Enemy;
-
-Enemy.prototype.update = function (dt) {
-    'use strict';
-
-    this.x += this.speed * dt;
-
-    if (this.x > config.canvasWidth) {
-        this.x = -config.fieldWidth;
-    }
-};
-
-Enemy.prototype.collidesWith = function (x, y) {
-    'use strict';
-
-    var collisionRow = config.rowCount - y - 1,
-        approxColumn = Math.ceil((this.x / config.fieldWidth) * 10) / 10;
-
-    logger.debug("(%d, %d) vs. [%f, %d]", x, collisionRow, approxColumn, this.row);
-
-    if (this.row === collisionRow) {
-        if (Math.floor(approxColumn + Enemy.HIT_THRESHOLD) === x
-                || Math.ceil(approxColumn - Enemy.HIT_THRESHOLD) === x) {
-            logger.debug("Hit enemy in row %d", this.row);
-            return true;
+        if (this.x > config.canvasWidth) {
+            this.x = -config.fieldWidth;
         }
-    }
+    };
 
-    return false;
-};
+    collidesWith = function (x, y) {
+        var collisionRow = config.rowCount - y - 1,
+            approxColumn = Math.ceil((this.x / config.fieldWidth) * 10) / 10;
+
+        logger.debug("(%d, %d) vs. [%f, %d]", x, collisionRow, approxColumn, this.row);
+
+        if (this.row === collisionRow) {
+            if (Math.floor(approxColumn + HIT_THRESHOLD) === x
+                    || Math.ceil(approxColumn - HIT_THRESHOLD) === x) {
+                logger.debug("Hit enemy in row %d", this.row);
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    proto = {
+        update: update,
+        collidesWith: collidesWith
+    };
+
+    /**
+     * @param row which row this enemy moves on.
+     * @param speed how fast this enemy moves.
+     * @type {{row: number, speed: number, sprite: string}}
+     */
+    defaults = {
+        row: 1,
+        speed: 100,
+        sprite: 'images/enemy-bug.png'
+    };
+
+    create = function (spec) {
+        var parent, newEnemy;
+
+        if (spec.row && (spec.row < 1 || spec.row > config.rowCount - 3)) {
+            throw new Error("Invalid row: " + spec.row);
+        }
+
+        parent = frogger.entity.create(spec);
+
+        newEnemy = $.extend(Object.create(parent), proto, defaults, spec);
+        newEnemy.y = newEnemy.row * config.fieldHeight - VERTICAL_ALIGNMENT;
+
+        return newEnemy;
+    };
+
+    return {
+        init: init,
+
+        create: create
+    };
+}(jQuery));

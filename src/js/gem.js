@@ -12,67 +12,78 @@
 
 /* requires: config.js logging.js util.js resources.js entity.js */
 
-/*global util, config, Entity */
+/*global jQuery, frogger, util, config */
 
-/**
- * Gem that the player can optionally collect.
- *
- * @constructor
- */
-var Gem = function () {
+/** Gem that the player can optionally collect. */
+frogger.gem = (function ($) {
     'use strict';
 
-    Entity.call(this, 'images/gem-green.png', 0, 0);
-    this.hide();
-};
+    var VERTICAL_ALIGNMENT = 25,
+        AVAILABLE_COLORS = ['blue', 'green', 'orange'],
+        update,
+        collidesWith,
+        reset,
+        hide,
+        proto,
+        defaults,
+        create;
 
-Gem.VERTICAL_ALIGNMENT = 25;
+    update = function () {
+        var now = Date.now();
+        if (now - this.lastTime > config.gemFrequency * 1000.0) {
+            this.reset();
+        }
 
-Gem.AVAILABLE_COLORS = ['blue', 'green', 'orange'];
+        this.x = this.column * config.fieldWidth;
+        this.y = this.row * config.fieldHeight - VERTICAL_ALIGNMENT;
+    };
 
-Gem.prototype = Object.create(Entity.prototype);
+    collidesWith = function (x, y) {
+        return this.visible && this.column === x && this.row === config.rowCount - y - 1;
+    };
 
-Gem.prototype.constructor = Gem;
+    reset = function () {
+        var newColor = AVAILABLE_COLORS[util.randomInt(0, AVAILABLE_COLORS.length - 1)];
 
-Gem.prototype.reset = function () {
-    'use strict';
+        this.sprite = 'images/gem-' + newColor + '.png';
+        this.lastTime = Date.now();
+        this.visible =  !this.visible;
+        this.column = util.randomInt(0, config.colCount - 1);
+        this.row = util.randomInt(1, config.rowCount - 3);
+    };
 
-    var newColor = Gem.AVAILABLE_COLORS[util.randomInt(0, Gem.AVAILABLE_COLORS.length - 1)];
-
-    this.sprite = 'images/gem-' + newColor + '.png';
-    this.lastTime = Date.now();
-    this.visible =  !this.visible;
-    this.column = util.randomInt(0, config.colCount - 1);
-    this.row = util.randomInt(1, config.rowCount - 3);
-};
-
-Gem.prototype.hide = function () {
-    'use strict';
-
-    this.reset();
-    this.visible = false;
-};
-
-Gem.prototype.update = function () {
-    'use strict';
-
-    var now = Date.now();
-    if (now - this.lastTime > config.gemFrequency * 1000.0) {
+    hide = function () {
         this.reset();
-    }
+        this.visible = false;
+    };
 
-    this.x = this.column * config.fieldWidth;
-    this.y = this.row * config.fieldHeight - Gem.VERTICAL_ALIGNMENT;
-};
+    proto = {
+        update: update,
+        collidesWith: collidesWith,
+        reset: reset,
+        hide: hide
+    };
 
-Gem.prototype.isVisible = function () {
-    'use strict';
+    defaults = {
+        column: 0,
+        row: 1,
+        visible: false,
+        lastTime: 0,
+        sprite: 'images/gem-green.png'
+    };
 
-    return this.visible;
-};
+    create = function (spec) {
+        var parent, newGem;
 
-Gem.prototype.collidesWith = function (x, y) {
-    'use strict';
+        parent = frogger.entity.create(spec);
 
-    return this.isVisible() && this.column === x && this.row === config.rowCount - y - 1;
-};
+        newGem = $.extend(Object.create(parent), proto, defaults, spec);
+        newGem.hide();
+
+        return newGem;
+    };
+
+    return {
+        create: create
+    };
+}(jQuery));

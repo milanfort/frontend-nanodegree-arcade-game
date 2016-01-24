@@ -28,8 +28,11 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime,
         allEntities = [],
-        gem = new Gem(),
-        player = new Player();
+        //TODO: put initilization code into separate method, call after page has loaded
+        gem = frogger.gem.create({}),
+        player = frogger.player.create({
+            sprite: 'images/char-horn-girl.png'
+        });
 
     canvas.width = config.canvasWidth;
     canvas.height = config.canvasHeight;
@@ -116,21 +119,18 @@ var Engine = (function(global) {
             var i;
             for (i = 1; i <= rockCount; i++) {
                 logger.debug("Adding rock");
-                allEntities.push(
-                    new Rock(
-                        util.randomInt(0, config.colCount - 1),
-                        util.randomInt(1, config.rowCount - 3)
-                    )
-                )
+                allEntities.push(frogger.rock.create({
+                    column: util.randomInt(0, config.colCount - 1),
+                    row: util.randomInt(1, config.rowCount - 3)
+                }));
             }
+
             for (i = 1; i <= enemyCount; i++) {
                 logger.debug("Adding enemy");
-                allEntities.push(
-                    new Enemy(
-                        util.randomInt(1, config.rowCount - 3),
-                        util.randomInt(config.minEnemySpeed, config.maxEnemySpeed)
-                    )
-                )
+                allEntities.push(frogger.enemy.create({
+                    row: util.randomInt(1, config.rowCount - 3),
+                    speed: util.randomInt(config.minEnemySpeed, config.maxEnemySpeed)
+                }));
             }
 
             player.reset();
@@ -222,7 +222,12 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        allEntities = [new Enemy(2, config.minEnemySpeed)];
+        allEntities = [
+            frogger.enemy.create({
+                row: 2,
+                speed: config.minEnemySpeed
+            })
+        ];
         gameStatus.init();
         gem.hide();
         player.reset();
@@ -238,7 +243,9 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
+        'images/char-horn-girl.png',
         'images/Rock.png',
+        'images/default.png',
         'images/gem-blue.png',
         'images/gem-green.png',
         'images/gem-orange.png'
@@ -265,8 +272,8 @@ var Engine = (function(global) {
     global.ctx = ctx;
 
     //TODO: figure out a better place for logging initialization
-    logging.init();
-    logging.enable();
-    logging.setLevel(log4javascript.Level.ERROR);
-    global.logger = logging.getLogger();
+    frogger.logging.init();
+    frogger.logging.enable();
+    frogger.logging.setLevel(log4javascript.Level.ERROR);
+    global.logger = frogger.logging.getLogger();
 })(this);

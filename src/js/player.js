@@ -12,73 +12,97 @@
 
 /* requires: config.js logging.js resources.js entity.js */
 
-/*global logger, config, Entity */
+/*global jQuery, frogger, config */
 
 /**
  * Player in the game. The goal for the player
  * is to get to the other side of the board.
- *
- * @constructor
  */
-var Player = function () {
+frogger.player = (function ($) {
     'use strict';
 
-    Entity.call(this, 'images/char-boy.png', 0, 0);
-    this.reset();
-};
+    var VERTICAL_ALIGNMENT = 12,
+        START_POS_X = 2,
+        START_POS_Y = 0,
+        logger,
+        init,
+        update,
+        reset,
+        handleInput,
+        proto,
+        defaults,
+        create;
 
-Player.VERTICAL_ALIGNMENT = 12;
+    init = function (playerLogger) {
+        logger = playerLogger;
+        logger.debug("Player module initialized");
+    };
 
-Player.START_POS_X = 2;
+    reset = function () {
+        this.posX = START_POS_X;
+        this.posY = START_POS_Y;
+    };
 
-Player.START_POS_Y = 0;
+    update = function () {
+        this.x = config.fieldWidth * this.posX;
+        this.y = config.fieldHeight * (config.rowCount - this.posY - 1) - VERTICAL_ALIGNMENT;
+    };
 
-Player.prototype = Object.create(Entity.prototype);
+    handleInput = function (direction) {
+        logger.debug("Moving %s", direction);
 
-Player.prototype.constructor = Player;
+        switch (direction) {
+        case 'up':
+            if (this.posY < config.rowCount - 1) {
+                this.posY += 1;
+            }
+            break;
 
-Player.prototype.reset = function () {
-    'use strict';
+        case 'down':
+            if (this.posY > 0) {
+                this.posY -= 1;
+            }
+            break;
 
-    this.posX = Player.START_POS_X;
-    this.posY = Player.START_POS_Y;
-};
+        case 'left':
+            if (this.posX > 0) {
+                this.posX -= 1;
+            }
+            break;
 
-Player.prototype.update = function () {
-    'use strict';
-
-    this.x = config.fieldWidth * this.posX;
-    this.y = config.fieldHeight * (config.rowCount - this.posY - 1) - Player.VERTICAL_ALIGNMENT;
-};
-
-Player.prototype.handleInput = function (direction) {
-    'use strict';
-
-    logger.debug("Moving %s", direction);
-
-    switch (direction) {
-    case 'up':
-        if (this.posY < config.rowCount - 1) {
-            this.posY += 1;
+        case 'right':
+            if (this.posX < config.colCount - 1) {
+                this.posX += 1;
+            }
+            break;
         }
-        break;
+    };
 
-    case 'down':
-        if (this.posY > 0) {
-            this.posY -= 1;
-        }
-        break;
+    proto = {
+        reset: reset,
+        update: update,
+        handleInput: handleInput
+    };
 
-    case 'left':
-        if (this.posX > 0) {
-            this.posX -= 1;
-        }
-        break;
+    defaults = {
+        posX: 0,
+        posY: 1,
+        sprite: 'images/char-boy.png'
+    };
 
-    case 'right':
-        if (this.posX < config.colCount - 1) {
-            this.posX += 1;
-        }
-        break;
-    }
-};
+    create = function (spec) {
+        var parent, newPlayer;
+
+        parent = frogger.entity.create(spec);
+
+        newPlayer = $.extend(Object.create(parent), proto, defaults, spec);
+        newPlayer.reset();
+
+        return newPlayer;
+    };
+
+    return {
+        init: init,
+        create: create
+    };
+}(jQuery));

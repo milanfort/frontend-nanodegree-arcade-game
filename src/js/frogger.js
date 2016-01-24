@@ -10,11 +10,23 @@
  regexp : true, todo    : true
  */
 
+/*global log4javascript */
+
 var frogger = (function () {
     'use strict';
 
     var init = function () {
-        return undefined;
+        var logger;
+
+        frogger.logging.init();
+        frogger.logging.enable();
+        frogger.logging.setLevel(log4javascript.Level.INFO);
+
+        logger = frogger.logging.getLogger();
+        frogger.enemy.init(logger);
+        frogger.player.init(logger);
+
+        logger.info("Starting Frogger");
     };
 
     return { init: init };

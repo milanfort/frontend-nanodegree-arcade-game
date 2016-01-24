@@ -10,9 +10,9 @@
  regexp : true, todo    : true
  */
 
-/*global log4javascript */
+/*global log4javascript, frogger */
 
-var logging = (function () {
+frogger.logging = (function () {
     'use strict';
 
     var rootLogger,
