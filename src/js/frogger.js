@@ -22,6 +22,8 @@ var frogger = (function () {
         frogger.logging.enable();
         frogger.logging.setLevel(log4javascript.Level.INFO);
 
+        frogger.canvas.init();
+
         logger = frogger.logging.getLogger();
         frogger.enemy.init(logger);
         frogger.player.init(logger);

@@ -10,7 +10,7 @@
  regexp : true, todo    : true
  */
 
-/* requires: frogger.js config.js logging.js resources.js */
+/* requires: frogger.js config.js logging.js resources.js canvas.js */
 
 /*global jQuery, frogger, ctx, Resources */
 
@@ -38,7 +38,7 @@ frogger.entity = (function ($) {
     /** Draw this entity on the screen. */
     render = function () {
         if (this.visible) {
-            ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+            frogger.canvas.renderImage(this.x, this.y, this.sprite);
         }
     };
 

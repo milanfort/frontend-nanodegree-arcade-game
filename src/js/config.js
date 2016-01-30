@@ -12,10 +12,6 @@
 
 var config = Object.freeze({
 
-    canvasWidth: 505,
-
-    canvasHeight: 606,
-
     rowCount: 6,
 
     colCount: 5,

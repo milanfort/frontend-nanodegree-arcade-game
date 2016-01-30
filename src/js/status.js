@@ -12,7 +12,7 @@
 
 /* requires: config.js logging.js */
 
-/*global ctx, config, logger */
+/*global frogger */
 
 var gameStatus = (function () {
     'use strict';
@@ -48,14 +48,7 @@ var gameStatus = (function () {
     };
 
     render = function () {
-        ctx.clearRect(0, 0, config.canvasWidth, 48);
-        ctx.font = "25px Arial";
-        ctx.fillStyle = "orange";
-        ctx.fillText("Level: " + currentLevel, 15, 30);
-        ctx.fillStyle = "red";
-        ctx.fillText("Score: " + getScore(), 200, 30);
-        ctx.fillStyle = "orange";
-        ctx.fillText("Gems: " + gemCount, 395, 30);
+        frogger.canvas.renderStatus(currentLevel, getScore(), gemCount);
     };
 
     return {

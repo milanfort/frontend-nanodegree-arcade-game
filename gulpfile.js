@@ -85,6 +85,7 @@ gulp.task('lint', function () {
     files.push(source + '/js/frogger.js');
     files.push(source + '/js/config.js');
     files.push(source + '/js/logging.js');
+    files.push(source + '/js/canvas.js');
     files.push(source + '/js/util.js');
     files.push(source + '/js/status.js');
     //files.push(source + '/js/resources.js');

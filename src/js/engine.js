@@ -22,10 +22,7 @@ var Engine = (function(global) {
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
      */
-    var doc = global.document,
-        win = global.window,
-        canvas = doc.createElement('canvas'),
-        ctx = canvas.getContext('2d'),
+    var win = global.window,
         lastTime,
         allEntities = [],
         //TODO: put initilization code into separate method, call after page has loaded
@@ -33,10 +30,6 @@ var Engine = (function(global) {
         player = frogger.player.create({
             sprite: 'images/char-horn-girl.png'
         });
-
-    canvas.width = config.canvasWidth;
-    canvas.height = config.canvasHeight;
-    doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -192,7 +185,7 @@ var Engine = (function(global) {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                frogger.canvas.renderImage(col * 101, row * 83, rowImages[row]);
             }
         }
 
@@ -264,12 +257,6 @@ var Engine = (function(global) {
 
         player.handleInput(allowedKeys[e.keyCode]);
     });
-
-    /* Assign the canvas' context object to the global variable (the window
-     * object when run in a browser) so that developer's can use it more easily
-     * from within their app.js files.
-     */
-    global.ctx = ctx;
 
     //TODO: figure out a better place for logging initialization
     frogger.logging.init();

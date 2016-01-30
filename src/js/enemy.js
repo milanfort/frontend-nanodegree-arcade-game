@@ -40,7 +40,7 @@ frogger.enemy = (function ($) {
     update = function (dt) {
         this.x += this.speed * dt;
 
-        if (this.x > config.canvasWidth) {
+        if (this.x > frogger.canvas.getWidth()) {
             this.x = -config.fieldWidth;
         }
     };
