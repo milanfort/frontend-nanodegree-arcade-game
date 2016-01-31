@@ -12,7 +12,7 @@
 
 /* requires: config.js logging.js util.js resources.js entity.js */
 
-/*global jQuery, frogger, util, config */
+/*global jQuery, frogger */
 
 /** Gem that the player can optionally collect. */
 frogger.gem = (function ($) {
@@ -30,26 +30,26 @@ frogger.gem = (function ($) {
 
     update = function () {
         var now = Date.now();
-        if (now - this.lastTime > config.gemFrequency * 1000.0) {
+        if (now - this.lastTime > frogger.config.gemFrequency * 1000.0) {
             this.reset();
         }
 
-        this.x = this.column * config.fieldWidth;
-        this.y = this.row * config.fieldHeight - VERTICAL_ALIGNMENT;
+        this.x = this.column * frogger.config.fieldWidth;
+        this.y = this.row * frogger.config.fieldHeight - VERTICAL_ALIGNMENT;
     };
 
     collidesWith = function (x, y) {
-        return this.visible && this.column === x && this.row === config.rowCount - y - 1;
+        return this.visible && this.column === x && this.row === frogger.config.rowCount - y - 1;
     };
 
     reset = function () {
-        var newColor = AVAILABLE_COLORS[util.randomInt(0, AVAILABLE_COLORS.length - 1)];
+        var newColor = AVAILABLE_COLORS[frogger.util.randomInt(0, AVAILABLE_COLORS.length - 1)];
 
         this.sprite = 'images/gem-' + newColor + '.png';
         this.lastTime = Date.now();
         this.visible =  !this.visible;
-        this.column = util.randomInt(0, config.colCount - 1);
-        this.row = util.randomInt(1, config.rowCount - 3);
+        this.column = frogger.util.randomInt(0, frogger.config.colCount - 1);
+        this.row = frogger.util.randomInt(1, frogger.config.rowCount - 3);
     };
 
     hide = function () {

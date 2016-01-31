@@ -12,7 +12,7 @@
 
 /* requires: frogger.js config.js logging.js resources.js canvas.js */
 
-/*global jQuery, frogger, ctx, Resources */
+/*global jQuery, frogger */
 
 /** Common superclass for all entities in the game. */
 frogger.entity = (function ($) {

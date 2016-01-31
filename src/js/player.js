@@ -12,7 +12,7 @@
 
 /* requires: config.js logging.js resources.js entity.js */
 
-/*global jQuery, frogger, config */
+/*global jQuery, frogger */
 
 /**
  * Player in the game. The goal for the player
@@ -44,8 +44,9 @@ frogger.player = (function ($) {
     };
 
     update = function () {
-        this.x = config.fieldWidth * this.posX;
-        this.y = config.fieldHeight * (config.rowCount - this.posY - 1) - VERTICAL_ALIGNMENT;
+        this.x = frogger.config.fieldWidth * this.posX;
+        this.y = frogger.config.fieldHeight * (frogger.config.rowCount - this.posY - 1)
+            - VERTICAL_ALIGNMENT;
     };
 
     handleInput = function (direction) {
@@ -53,7 +54,7 @@ frogger.player = (function ($) {
 
         switch (direction) {
         case 'up':
-            if (this.posY < config.rowCount - 1) {
+            if (this.posY < frogger.config.rowCount - 1) {
                 this.posY += 1;
             }
             break;
@@ -71,7 +72,7 @@ frogger.player = (function ($) {
             break;
 
         case 'right':
-            if (this.posX < config.colCount - 1) {
+            if (this.posX < frogger.config.colCount - 1) {
                 this.posX += 1;
             }
             break;

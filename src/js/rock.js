@@ -12,7 +12,7 @@
 
 /* requires: config.js logging.js resources.js entity.js */
 
-/*global jQuery, frogger, config */
+/*global jQuery, frogger */
 
 /**
  * Rock that the player must avoid.
@@ -28,7 +28,7 @@ frogger.rock = (function ($) {
         create;
 
     collidesWith = function (x, y) {
-        return this.column === x && this.row === config.rowCount - y - 1;
+        return this.column === x && this.row === frogger.config.rowCount - y - 1;
     };
 
     proto = {
@@ -49,19 +49,19 @@ frogger.rock = (function ($) {
     create = function (spec) {
         var parent, newRock;
 
-        if (spec.column && (spec.column < 0 || spec.column > config.colCount - 1)) {
+        if (spec.column && (spec.column < 0 || spec.column > frogger.config.colCount - 1)) {
             throw new Error("Invalid column: " + spec.column);
         }
 
-        if (spec.row && (spec.row < 1 || spec.row > config.rowCount - 3)) {
+        if (spec.row && (spec.row < 1 || spec.row > frogger.config.rowCount - 3)) {
             throw new Error("Invalid row: " + spec.row);
         }
 
         parent = frogger.entity.create(spec);
 
         newRock = $.extend(Object.create(parent), proto, defaults, spec);
-        newRock.x = newRock.column * config.fieldWidth;
-        newRock.y = newRock.row * config.fieldHeight - VERTICAL_ALIGNMENT;
+        newRock.x = newRock.column * frogger.config.fieldWidth;
+        newRock.y = newRock.row * frogger.config.fieldHeight - VERTICAL_ALIGNMENT;
 
         return newRock;
     };

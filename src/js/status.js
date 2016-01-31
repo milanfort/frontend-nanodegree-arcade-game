@@ -14,7 +14,7 @@
 
 /*global frogger */
 
-var gameStatus = (function () {
+frogger.status = (function () {
     'use strict';
 
     var currentLevel,

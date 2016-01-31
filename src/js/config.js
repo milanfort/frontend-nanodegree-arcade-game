@@ -10,7 +10,11 @@
  regexp : true, todo    : true
  */
 
-var config = Object.freeze({
+/* requires: frogger.js */
+
+/*global frogger */
+
+frogger.config = Object.freeze({
 
     rowCount: 6,
 

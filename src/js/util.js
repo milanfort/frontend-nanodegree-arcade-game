@@ -10,7 +10,11 @@
  regexp : true, todo    : true
  */
 
-var util = (function () {
+/* requires: frogger.js */
+
+/*global frogger */
+
+frogger.util = (function () {
     'use strict';
 
     var randomInt;

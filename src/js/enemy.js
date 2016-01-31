@@ -12,7 +12,7 @@
 
 /* requires: config.js logging.js resources.js entity.js */
 
-/*global jQuery, config, frogger */
+/*global jQuery, frogger */
 
 /**
  * Enemy the player must avoid.
@@ -41,13 +41,13 @@ frogger.enemy = (function ($) {
         this.x += this.speed * dt;
 
         if (this.x > frogger.canvas.getWidth()) {
-            this.x = -config.fieldWidth;
+            this.x = -frogger.config.fieldWidth;
         }
     };
 
     collidesWith = function (x, y) {
-        var collisionRow = config.rowCount - y - 1,
-            approxColumn = Math.ceil((this.x / config.fieldWidth) * 10) / 10;
+        var collisionRow = frogger.config.rowCount - y - 1,
+            approxColumn = Math.ceil((this.x / frogger.config.fieldWidth) * 10) / 10;
 
         logger.debug("(%d, %d) vs. [%f, %d]", x, collisionRow, approxColumn, this.row);
 
@@ -81,14 +81,14 @@ frogger.enemy = (function ($) {
     create = function (spec) {
         var parent, newEnemy;
 
-        if (spec.row && (spec.row < 1 || spec.row > config.rowCount - 3)) {
+        if (spec.row && (spec.row < 1 || spec.row > frogger.config.rowCount - 3)) {
             throw new Error("Invalid row: " + spec.row);
         }
 
         parent = frogger.entity.create(spec);
 
         newEnemy = $.extend(Object.create(parent), proto, defaults, spec);
-        newEnemy.y = newEnemy.row * config.fieldHeight - VERTICAL_ALIGNMENT;
+        newEnemy.y = newEnemy.row * frogger.config.fieldHeight - VERTICAL_ALIGNMENT;
 
         return newEnemy;
     };

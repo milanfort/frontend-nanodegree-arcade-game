@@ -27,7 +27,7 @@ config.js logging.js util.js resources.js entity.js
 enemy.js rock.js gem.js player.js status.js
  */
 
-/*global jQuery, frogger, config, gameStatus, util */
+/*global jQuery, frogger */
 
 frogger.engine = (function ($) {
     'use strict';
@@ -63,10 +63,10 @@ frogger.engine = (function ($) {
         obstacles = [
             frogger.enemy.create({
                 row: 2,
-                speed: config.minEnemySpeed
+                speed: frogger.config.minEnemySpeed
             })
         ];
-        gameStatus.init();
+        frogger.status.init();
         gem.hide();
         player.reset();
     };
@@ -135,28 +135,36 @@ frogger.engine = (function ($) {
     checkWaterReached = function () {
         var rockCount, enemyCount, i;
 
-        if (player.posY === config.rowCount - 1) {
-            gameStatus.increaseLevel();
-            rockCount = Math.min(Math.floor(gameStatus.getLevel() / 2), config.colCount - 1);
+        if (player.posY === frogger.config.rowCount - 1) {
+            frogger.status.increaseLevel();
+
+            rockCount = Math.min(
+                Math.floor(frogger.status.getLevel() / 2),
+                frogger.config.colCount - 1
+            );
+
             enemyCount = Math.min(
-                Math.ceil(gameStatus.getLevel() / 2),
-                (config.rowCount - 3) * 2
+                Math.ceil(frogger.status.getLevel() / 2),
+                (frogger.config.rowCount - 3) * 2
             );
 
             obstacles = [];
             for (i = 1; i <= rockCount; i++) {
                 logger.debug("Adding rock");
                 obstacles.push(frogger.rock.create({
-                    column: util.randomInt(0, config.colCount - 1),
-                    row: util.randomInt(1, config.rowCount - 3)
+                    column: frogger.util.randomInt(0, frogger.config.colCount - 1),
+                    row: frogger.util.randomInt(1, frogger.config.rowCount - 3)
                 }));
             }
 
             for (i = 1; i <= enemyCount; i++) {
                 logger.debug("Adding enemy");
                 obstacles.push(frogger.enemy.create({
-                    row: util.randomInt(1, config.rowCount - 3),
-                    speed: util.randomInt(config.minEnemySpeed, config.maxEnemySpeed)
+                    row: frogger.util.randomInt(1, frogger.config.rowCount - 3),
+                    speed: frogger.util.randomInt(
+                        frogger.config.minEnemySpeed,
+                        frogger.config.maxEnemySpeed
+                    )
                 }));
             }
 
@@ -167,7 +175,7 @@ frogger.engine = (function ($) {
     checkGemCollected = function () {
         if (gem.collidesWith(player.posX, player.posY)) {
             gem.hide();
-            gameStatus.increaseGems();
+            frogger.status.increaseGems();
         }
     };
 
@@ -179,7 +187,7 @@ frogger.engine = (function ($) {
         });
 
         if (collision) {
-            logger.info("Game Over: Your score is %d", gameStatus.getScore());
+            logger.info("Game Over: Your score is %d", frogger.status.getScore());
             reset();
         }
     };
@@ -202,8 +210,8 @@ frogger.engine = (function ($) {
                 'images/grass-block.png',   // Row 1 of 2 of grass
                 'images/grass-block.png'    // Row 2 of 2 of grass
             ],
-            numRows = config.rowCount,
-            numCols = config.colCount,
+            numRows = frogger.config.rowCount,
+            numCols = frogger.config.colCount,
             row,
             col;
 
@@ -242,7 +250,7 @@ frogger.engine = (function ($) {
         });
 
         player.render();
-        gameStatus.render();
+        frogger.status.render();
     };
 
     init = function (engineLogger) {
