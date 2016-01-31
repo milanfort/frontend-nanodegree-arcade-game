@@ -27,6 +27,7 @@ var frogger = (function () {
         logger = frogger.logging.getLogger();
         frogger.enemy.init(logger);
         frogger.player.init(logger);
+        frogger.engine.init(logger);
 
         logger.info("Starting Frogger");
     };

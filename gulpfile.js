@@ -94,7 +94,7 @@ gulp.task('lint', function () {
     files.push(source + '/js/rock.js');
     files.push(source + '/js/gem.js');
     files.push(source + '/js/player.js');
-    //files.push(source + '/js/engine.js');
+    files.push(source + '/js/engine.js');
 
     return gulp.src(files)
         .pipe(jslint())

@@ -1,7 +1,6 @@
-
-/* requires: config.js logging.js util.js resources.js entity.js enemy.js rock.js gem.js player.js status.js */
-
-/* Engine.js
+/*
+ * engine.js
+ *
  * This file provides the game loop functionality (update entities and render),
  * draws the initial game board on the screen, and then calls the update and
  * render methods on your player and enemy objects (defined in your app.js).
@@ -17,24 +16,65 @@
  * a little simpler to work with.
  */
 
-var Engine = (function(global) {
-    /* Predefine the variables we'll be using within this scope,
-     * create the canvas element, grab the 2D context for that canvas
-     * set the canvas elements height/width and add it to the DOM.
-     */
-    var win = global.window,
+/*jslint
+ browser: true, continue: true, indent  : 4,
+ maxerr : 50,   maxlen  : 100,  plusplus: true,
+ regexp : true, todo    : true
+ */
+
+/* requires:
+config.js logging.js util.js resources.js entity.js
+enemy.js rock.js gem.js player.js status.js
+ */
+
+/*global jQuery, frogger, Resources, config, gameStatus, util */
+
+frogger.engine = (function ($) {
+    'use strict';
+
+    var logger,
         lastTime,
-        allEntities = [],
-        //TODO: put initilization code into separate method, call after page has loaded
-        gem = frogger.gem.create({}),
-        player = frogger.player.create({
-            sprite: 'images/char-horn-girl.png'
-        });
+        gem,
+        player,
+        obstacles,
+        start,
+        reset,
+        main,
+        update,
+        updateEntities,
+        checkWaterReached,
+        checkGemCollected,
+        checkCollisions,
+        render,
+        renderEntities,
+        init;
+
+    /* This function does some initial setup that should only occur once,
+     * particularly setting the lastTime variable that is required for the
+     * game loop.
+     */
+    start = function () {
+        reset();
+        lastTime = Date.now();
+        main();
+    };
+
+    reset = function () {
+        obstacles = [
+            frogger.enemy.create({
+                row: 2,
+                speed: config.minEnemySpeed
+            })
+        ];
+        gameStatus.init();
+        gem.hide();
+        player.reset();
+    };
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
-    function main() {
+    main = function () {
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
@@ -58,18 +98,8 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
-    }
-
-    /* This function does some initial setup that should only occur once,
-     * particularly setting the lastTime variable that is required for the
-     * game loop.
-     */
-    function init() {
-        reset();
-        lastTime = Date.now();
-        main();
-    }
+        window.requestAnimationFrame(main);
+    };
 
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
@@ -80,12 +110,12 @@ var Engine = (function(global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
-    function update(dt) {
+    update = function (dt) {
         updateEntities(dt);
         checkWaterReached();
         checkGemCollected();
         checkCollisions();
-    }
+    };
 
     /* This is called by the update function  and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
@@ -94,25 +124,29 @@ var Engine = (function(global) {
      * the data/properties related to  the object. Do your drawing in your
      * render methods.
      */
-    function updateEntities(dt) {
-        allEntities.forEach(function(entity) {
+    updateEntities = function (dt) {
+        obstacles.forEach(function (entity) {
             entity.update(dt);
         });
         gem.update();
         player.update();
-    }
+    };
 
-    function checkWaterReached() {
-        if (player.posY == config.rowCount - 1) {
+    checkWaterReached = function () {
+        var rockCount, enemyCount, i;
+
+        if (player.posY === config.rowCount - 1) {
             gameStatus.increaseLevel();
-            var rockCount = Math.min(Math.floor(gameStatus.getLevel() / 2), config.colCount - 1);
-            var enemyCount = Math.min(Math.ceil(gameStatus.getLevel() / 2), (config.rowCount - 3) * 2);
+            rockCount = Math.min(Math.floor(gameStatus.getLevel() / 2), config.colCount - 1);
+            enemyCount = Math.min(
+                Math.ceil(gameStatus.getLevel() / 2),
+                (config.rowCount - 3) * 2
+            );
 
-            allEntities = [];
-            var i;
+            obstacles = [];
             for (i = 1; i <= rockCount; i++) {
                 logger.debug("Adding rock");
-                allEntities.push(frogger.rock.create({
+                obstacles.push(frogger.rock.create({
                     column: util.randomInt(0, config.colCount - 1),
                     row: util.randomInt(1, config.rowCount - 3)
                 }));
@@ -120,7 +154,7 @@ var Engine = (function(global) {
 
             for (i = 1; i <= enemyCount; i++) {
                 logger.debug("Adding enemy");
-                allEntities.push(frogger.enemy.create({
+                obstacles.push(frogger.enemy.create({
                     row: util.randomInt(1, config.rowCount - 3),
                     speed: util.randomInt(config.minEnemySpeed, config.maxEnemySpeed)
                 }));
@@ -128,27 +162,27 @@ var Engine = (function(global) {
 
             player.reset();
         }
-    }
+    };
 
-    function checkGemCollected() {
+    checkGemCollected = function () {
         if (gem.collidesWith(player.posX, player.posY)) {
             gem.hide();
             gameStatus.increaseGems();
         }
-    }
+    };
 
-    function checkCollisions() {
+    checkCollisions = function () {
         var collision = false;
 
-        allEntities.forEach(function(entity) {
+        obstacles.forEach(function (entity) {
             collision = collision || entity.collidesWith(player.posX, player.posY);
         });
 
         if (collision) {
-            logger.info("Game over; score: %d", gameStatus.getScore());
+            logger.info("Game Over: Your score is %d", gameStatus.getScore());
             reset();
         }
-    }
+    };
 
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
@@ -156,7 +190,7 @@ var Engine = (function(global) {
      * they are flipbooks creating the illusion of animation but in reality
      * they are just drawing the entire screen over and over.
      */
-    function render() {
+    render = function () {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
@@ -170,7 +204,8 @@ var Engine = (function(global) {
             ],
             numRows = config.rowCount,
             numCols = config.colCount,
-            row, col;
+            row,
+            col;
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
@@ -190,77 +225,69 @@ var Engine = (function(global) {
         }
 
         renderEntities();
-    }
+    };
 
     /* This function is called by the render function and is called on each game
      * tick. It's purpose is to then call the render functions you have defined
      * on your enemy and player entities within app.js
      */
-    function renderEntities() {
+    renderEntities = function renderEntities() {
         gem.render();
 
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEntities.forEach(function(entity) {
+        obstacles.forEach(function (entity) {
             entity.render();
         });
 
         player.render();
         gameStatus.render();
-    }
+    };
 
-    /* This function does nothing but it could have been a good place to
-     * handle game reset states - maybe a new game menu or a game over screen
-     * those sorts of things. It's only called once by the init() method.
-     */
-    function reset() {
-        allEntities = [
-            frogger.enemy.create({
-                row: 2,
-                speed: config.minEnemySpeed
-            })
-        ];
-        gameStatus.init();
-        gem.hide();
-        player.reset();
-    }
+    init = function (engineLogger) {
+        logger = engineLogger;
 
-    /* Go ahead and load all of the images we know we're going to need to
-     * draw our game level. Then set init as the callback method, so that when
-     * all of these images are properly loaded our game will start.
-     */
-    Resources.load([
-        'images/stone-block.png',
-        'images/water-block.png',
-        'images/grass-block.png',
-        'images/enemy-bug.png',
-        'images/char-boy.png',
-        'images/char-horn-girl.png',
-        'images/Rock.png',
-        'images/default.png',
-        'images/gem-blue.png',
-        'images/gem-green.png',
-        'images/gem-orange.png'
-    ]);
-    Resources.onReady(init);
+        gem = frogger.gem.create({});
 
-    // This listens for key presses and sends the keys to your
-    // Player.handleInput() method. You don't need to modify this.
-    document.addEventListener('keyup', function(e) {
-        var allowedKeys = {
-            37: 'left',
-            38: 'up',
-            39: 'right',
-            40: 'down'
-        };
+        player = frogger.player.create({
+            sprite: 'images/char-horn-girl.png'
+        });
 
-        player.handleInput(allowedKeys[e.keyCode]);
-    });
+        $(document).keyup(function (e) {
+            var allowedKeys = {
+                37: 'left',
+                38: 'up',
+                39: 'right',
+                40: 'down'
+            };
 
-    //TODO: figure out a better place for logging initialization
-    frogger.logging.init();
-    frogger.logging.enable();
-    frogger.logging.setLevel(log4javascript.Level.ERROR);
-    global.logger = frogger.logging.getLogger();
-})(this);
+            player.handleInput(allowedKeys[e.keyCode]);
+        });
+
+        /* Go ahead and load all of the images we know we're going to need to
+         * draw our game level. Then set start as the callback method, so that when
+         * all of these images are properly loaded our game will start.
+         */
+        Resources.load([
+            'images/stone-block.png',
+            'images/water-block.png',
+            'images/grass-block.png',
+            'images/enemy-bug.png',
+            'images/char-boy.png',
+            'images/char-horn-girl.png',
+            'images/Rock.png',
+            'images/default.png',
+            'images/gem-blue.png',
+            'images/gem-green.png',
+            'images/gem-orange.png'
+        ]);
+        Resources.onReady(start);
+
+        logger.debug("Engine module initialized");
+    };
+
+    return {
+        init: init
+    };
+}(jQuery));
