@@ -51,7 +51,6 @@ gulp.task('js', function () {
     var glob = mainBowerFiles('**/*.js');
     glob.push(source + '/js/**/*.js');
     return gulp.src(glob)
-        //.pipe(jslint())
         .pipe(deporder())
         .pipe(concat(jsFile))
         .pipe(uglify())

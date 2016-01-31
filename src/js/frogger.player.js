@@ -1,5 +1,5 @@
 /*
- * player.js
+ * frogger.player.js
  *
  * Created by Milan Fort <http://www.milanfort.com/>.
  */
@@ -10,7 +10,7 @@
  regexp : true, todo    : true
  */
 
-/* requires: config.js logging.js resources.js entity.js */
+/*require frogger.js frogger.config.js frogger.logging.js frogger.entity.js */
 
 /*global jQuery, frogger */
 

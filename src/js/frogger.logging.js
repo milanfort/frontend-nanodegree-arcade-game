@@ -1,5 +1,5 @@
 /*
- * logging.js
+ * frogger.logging.js
  *
  * Created by Milan Fort <http://www.milanfort.com/>.
  */
@@ -9,6 +9,8 @@
  maxerr : 50,   maxlen  : 100,  plusplus: true,
  regexp : true, todo    : true
  */
+
+/*require frogger.js */
 
 /*global log4javascript, frogger */
 

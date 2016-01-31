@@ -1,5 +1,5 @@
 /*
- * config.js
+ * frogger.config.js
  *
  * Created by Milan Fort <http://www.milanfort.com/>.
  */
@@ -10,7 +10,7 @@
  regexp : true, todo    : true
  */
 
-/* requires: frogger.js */
+/*require frogger.js */
 
 /*global frogger */
 

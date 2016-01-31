@@ -1,5 +1,5 @@
 /*
- * engine.js
+ * frogger.engine.js
  *
  * This file provides the game loop functionality (update entities and render),
  * draws the initial game board on the screen, and then calls the update and
@@ -22,9 +22,18 @@
  regexp : true, todo    : true
  */
 
-/* requires:
-config.js logging.js util.js resources.js entity.js
-enemy.js rock.js gem.js player.js status.js
+/*require
+  frogger.js
+  frogger.config.js
+  frogger.logging.js
+  frogger.resources.js
+  frogger.util.js
+  frogger.canvas.js
+  frogger.status.js
+  frogger.enemy.js
+  frogger.rock.js
+  frogger.gem.js
+  frogger.player.js
  */
 
 /*global jQuery, frogger */

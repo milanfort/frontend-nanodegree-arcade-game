@@ -1,5 +1,5 @@
 /*
- * resources.js
+ * frogger.resources.js
  *
  * This is simple an image loading utility. It eases the process of loading
  * image files so that they can be used within your game. It also includes
@@ -12,6 +12,8 @@
  maxerr : 50,   maxlen  : 100,  plusplus: true,
  regexp : true, todo    : true
  */
+
+/*require frogger.js */
 
 /*global frogger */
 

@@ -1,5 +1,5 @@
 /*
- * status.js
+ * frogger.status.js
  *
  * Created by Milan Fort <http://www.milanfort.com/>.
  */
@@ -10,7 +10,7 @@
  regexp : true, todo    : true
  */
 
-/* requires: config.js logging.js */
+/*require frogger.js frogger.canvas.js */
 
 /*global frogger */
 

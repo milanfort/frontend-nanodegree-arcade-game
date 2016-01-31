@@ -1,5 +1,5 @@
 /*
- * entity.js
+ * frogger.entity.js
  *
  * Created by Milan Fort <http://www.milanfort.com/>.
  */
@@ -10,7 +10,7 @@
  regexp : true, todo    : true
  */
 
-/* requires: frogger.js config.js logging.js resources.js canvas.js */
+/*require frogger.js frogger.canvas.js */
 
 /*global jQuery, frogger */
 

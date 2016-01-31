@@ -1,5 +1,5 @@
 /*
- * gem.js
+ * frogger.gem.js
  *
  * Created by Milan Fort <http://www.milanfort.com/>.
  */
@@ -10,7 +10,7 @@
  regexp : true, todo    : true
  */
 
-/* requires: config.js logging.js util.js resources.js entity.js */
+/*require frogger.js frogger.config.js frogger.util.js frogger.entity.js */
 
 /*global jQuery, frogger */
 

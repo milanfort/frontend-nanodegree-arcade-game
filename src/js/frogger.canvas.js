@@ -1,5 +1,5 @@
 /*
- * canvas.js
+ * frogger.canvas.js
  *
  * Created by Milan Fort <http://www.milanfort.com/>.
  */
@@ -10,7 +10,7 @@
  regexp : true, todo    : true
  */
 
-/* requires: frogger.js resources.js */
+/*require frogger.js frogger.resources.js */
 
 /*global jQuery, frogger */
 
