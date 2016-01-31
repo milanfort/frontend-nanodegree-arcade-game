@@ -27,7 +27,7 @@ config.js logging.js util.js resources.js entity.js
 enemy.js rock.js gem.js player.js status.js
  */
 
-/*global jQuery, frogger, Resources, config, gameStatus, util */
+/*global jQuery, frogger, config, gameStatus, util */
 
 frogger.engine = (function ($) {
     'use strict';
@@ -269,7 +269,7 @@ frogger.engine = (function ($) {
          * draw our game level. Then set start as the callback method, so that when
          * all of these images are properly loaded our game will start.
          */
-        Resources.load([
+        frogger.resources.load([
             'images/stone-block.png',
             'images/water-block.png',
             'images/grass-block.png',
@@ -282,7 +282,7 @@ frogger.engine = (function ($) {
             'images/gem-green.png',
             'images/gem-orange.png'
         ]);
-        Resources.onReady(start);
+        frogger.resources.onReady(start);
 
         logger.debug("Engine module initialized");
     };

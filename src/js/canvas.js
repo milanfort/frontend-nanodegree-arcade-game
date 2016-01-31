@@ -12,7 +12,7 @@
 
 /* requires: frogger.js resources.js */
 
-/*global jQuery, frogger, Resources */
+/*global jQuery, frogger */
 
 frogger.canvas = (function ($) {
     'use strict';
@@ -34,7 +34,7 @@ frogger.canvas = (function ($) {
     };
 
     renderImage = function (x, y, image) {
-        context.drawImage(Resources.get(image), x, y);
+        context.drawImage(frogger.resources.get(image), x, y);
     };
 
     renderStatus = function (level, score, gems) {
