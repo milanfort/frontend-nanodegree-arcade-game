@@ -23,17 +23,17 @@
  */
 
 /*require
-  frogger.js
-  frogger.config.js
-  frogger.logging.js
-  frogger.resources.js
-  frogger.util.js
-  frogger.canvas.js
-  frogger.status.js
-  frogger.enemy.js
-  frogger.rock.js
-  frogger.gem.js
-  frogger.player.js
+ frogger.js
+ frogger.config.js
+ frogger.logging.js
+ frogger.resources.js
+ frogger.util.js
+ frogger.canvas.js
+ frogger.status.js
+ frogger.enemy.js
+ frogger.rock.js
+ frogger.gem.js
+ frogger.player.js
  */
 
 /*global jQuery, frogger */

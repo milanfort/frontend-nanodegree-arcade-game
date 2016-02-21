@@ -24,7 +24,7 @@ gulp.task('clean', function (done) {
     del([dest], done);
 });
 
-gulp.task('bower', function() {
+gulp.task('bower', function () {
     return gulp.src(source + '/*.html')
         .pipe(wiredep())
         .pipe(gulp.dest(source))

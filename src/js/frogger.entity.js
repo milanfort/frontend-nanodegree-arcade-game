@@ -63,5 +63,7 @@ frogger.entity = (function ($) {
         return $.extend(Object.create(proto), defaults, spec);
     };
 
-    return { create: create };
+    return {
+        create: create
+    };
 }(jQuery));

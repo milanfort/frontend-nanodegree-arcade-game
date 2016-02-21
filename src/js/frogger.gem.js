@@ -47,7 +47,7 @@ frogger.gem = (function ($) {
 
         this.sprite = 'images/gem-' + newColor + '.png';
         this.lastTime = Date.now();
-        this.visible =  !this.visible;
+        this.visible = !this.visible;
         this.column = frogger.util.randomInt(0, frogger.config.colCount - 1);
         this.row = frogger.util.randomInt(1, frogger.config.rowCount - 3);
     };

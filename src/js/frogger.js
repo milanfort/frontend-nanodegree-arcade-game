@@ -32,5 +32,7 @@ var frogger = (function () {
         logger.info("Starting Frogger");
     };
 
-    return { init: init };
+    return {
+        init: init
+    };
 }());
