@@ -12,9 +12,31 @@
 
 /*global log4javascript */
 
+/**
+ * @namespace frogger
+ * @description The only global variable in the entire application is __frogger__.
+ */
+
+/**
+ * Main module responsible for initializing the application.
+ *
+ * @module frogger
+ * @variation module
+ * @type {{init}}
+ *
+ * @author Milan Fort (http://www.milanfort.com/)
+ * @version 1.0
+ * @see File index.html where this module is used after the page was loaded.
+ * @since 1.0.0
+ */
 var frogger = (function () {
     'use strict';
 
+    /**
+     * Initializes the entire application.
+     *
+     * @memberof module:frogger(module)
+     */
     var init = function () {
         var logger;
 

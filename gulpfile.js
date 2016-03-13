@@ -14,14 +14,16 @@ var a11y = require('gulp-a11y');
 var imagemin = require('gulp-imagemin');
 var wiredep = require('wiredep').stream;
 var mainBowerFiles = require('main-bower-files');
+var jsdoc = require('gulp-jsdoc3');
 
 var source = 'src';
 var dest = 'dist';
+var docs = 'docs';
 var jsFile = 'main.min.js';
 var cssFile = 'main.min.css';
 
 gulp.task('clean', function (done) {
-    del([dest], done);
+    del([dest, docs], done);
 });
 
 gulp.task('bower', function () {
@@ -85,6 +87,12 @@ gulp.task('lint', function () {
 });
 
 gulp.task('test', ['lint', 'a11y']);
+
+gulp.task('docs', function (cb) {
+    var config = require('./jsdoc.json');
+    gulp.src([source + '/js/**/*.js'], {read: false})
+        .pipe(jsdoc(config, cb));
+});
 
 gulp.task('default', ['css', 'images', 'js', 'html'], function () {
     console.log('Building %s version %s', project.name, project.version);

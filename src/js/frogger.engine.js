@@ -38,6 +38,19 @@
 
 /*global jQuery, frogger */
 
+/**
+ * This module implements the game functionality.
+ *
+ * Calling the method {@link module:frogger/engine~init|init()} starts the game.
+ *
+ * @module frogger/engine
+ * @type {{init}}
+ *
+ * @author Udacity, Inc.
+ * @author Milan Fort (http://www.milanfort.com/)
+ * @version 1.0
+ * @since 1.0.0
+ */
 frogger.engine = (function ($) {
     'use strict';
 
@@ -262,6 +275,11 @@ frogger.engine = (function ($) {
         frogger.status.render();
     };
 
+    /**
+     * Initializes this module and starts the game.
+     *
+     * @param {log4javascript.Logger} engineLogger - The logger to use for internal logging.
+     */
     init = function (engineLogger) {
         logger = engineLogger;
 

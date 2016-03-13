@@ -18,7 +18,15 @@
 /*global frogger */
 
 /**
- * This object defines functions for loading image resources.
+ * This module provides helper functions for working with image resources.
+ *
+ * @module frogger/resources
+ * @type {{load, get, onReady}}
+ *
+ * @author Udacity, Inc.
+ * @author Milan Fort (http://www.milanfort.com/)
+ * @version 1.0
+ * @since 1.0.0
  */
 frogger.resources = (function () {
     'use strict';
@@ -86,9 +94,13 @@ frogger.resources = (function () {
 
     /* Public API Methods */
 
-    /* This is the publicly accessible image loading function. It accepts
-     * an array of strings pointing to image files or a string for a single
-     * image. It will then call our private image loading function accordingly.
+    /**
+     * Loads the specified image resource(s).
+     *
+     * It accepts an array of strings pointing to image files or a string for a single image.
+     *
+     * @param urlOrArr {string|string[]} - array of strings of image resource paths
+     * or a single string image resource path.
      */
     load = function (urlOrArr) {
         if (urlOrArr instanceof Array) {
@@ -108,16 +120,23 @@ frogger.resources = (function () {
         }
     };
 
-    /* This is used by developer's to grab references to images they know
-     * have been previously loaded. If an image is cached, this functions
-     * the same as calling load() on that URL.
+    /**
+     * Returns the image object corresponding to the specified resource path
+     * iff the image was previously loaded; _undefined_ otherwise.
+     *
+     * @param {string} url - The string resource path for the image to load.
+     * @return {Image} The image object corresponding to the specified resource path
+     * iff the image was previously loaded; _undefined_ otherwise.
      */
     get = function (url) {
         return resourceCache[url];
     };
 
-    /* This function will add a function to the callback stack that is called
+    /**
+     * Adds the specified function to the callback stack that is called
      * when all requested images are properly loaded.
+     *
+     * @param {function} func - function to add to the callback stack.
      */
     onReady = function (func) {
         readyCallbacks.push(func);
