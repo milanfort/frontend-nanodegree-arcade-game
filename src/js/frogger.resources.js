@@ -1,10 +1,9 @@
 /*
  * frogger.resources.js
  *
- * This is simple an image loading utility. It eases the process of loading
- * image files so that they can be used within your game. It also includes
- * a simple "caching" layer so it will reuse cached images if you attempt
- * to load the same image multiple times.
+ * Copyright 2016 Milan Fort (http://www.milanfort.com/). All rights reserved.
+ *
+ * Portions copyright 2014 Udacity, Inc.
  */
 
 /*jslint
@@ -19,6 +18,9 @@
 
 /**
  * This module provides helper functions for working with image resources.
+ *
+ * It implements a simple caching layer so it will reuse cached images
+ * if we attempt to load the same image multiple times.
  *
  * @module frogger/resources
  * @type {{load, get, onReady}}

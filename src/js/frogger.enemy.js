@@ -1,7 +1,7 @@
 /*
  * frogger.enemy.js
  *
- * Created by Milan Fort <http://www.milanfort.com/>.
+ * Copyright 2016 Milan Fort (http://www.milanfort.com/). All rights reserved.
  */
 
 /*jslint
