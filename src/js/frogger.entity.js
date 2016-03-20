@@ -7,7 +7,7 @@
 /*jslint
  browser: true, continue: true, indent  : 4,
  maxerr : 50,   maxlen  : 100,  plusplus: true,
- regexp : true, todo    : true
+ regexp : true, todo    : true, unparam : true
  */
 
 /*require frogger.js frogger.canvas.js */
@@ -78,7 +78,7 @@ frogger.entity = (function ($) {
      * @param {number} dt - A time delta between ticks.
      */
     update = function (dt) {
-        return dt; //trick to bypass jslint unused warning
+        return dt; //trick to bypass jslint unused and empty block warnings
     };
 
     /**
