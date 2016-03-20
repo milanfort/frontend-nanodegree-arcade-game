@@ -27,36 +27,41 @@ To run and play the game locally, follow these steps:
 
 1. [Install Node.js](https://nodejs.org/en/download/)
 
-1. Install [Gulp](http://gulpjs.com/) globally:
+2. Install [Gulp](http://gulpjs.com/) globally:
 ```
 $ npm install -g gulp
 ```
-1. Install [Bower](http://bower.io/) globally:
+
+3. Install [Bower](http://bower.io/) globally:
 ```
 $ npm install -g bower
 ```
-1. Clone this git repository:
+
+4. Clone this git repository:
 ```
 $ git clone https://github.com/milanfort/frontend-nanodegree-arcade-game.git
 ```
-1. Change your working directory to _frontend-nanodegree-arcade-game_
 
-1. Install development dependencies:
+5. Change your working directory to _frontend-nanodegree-arcade-game_
+
+6. Install development dependencies:
 ```
 $ npm install
 ```
-1. Install client-side dependencies:
+
+7. Install client-side dependencies:
 ```
 $ bower install
 ```
-1. Run `gulp` to deploy the code to _dist_ directory
 
-1. Optionally, run `gulp test` to validate JavaScript source files using [JSLint](http://www.jslint.com/)
+8. Run `gulp` to deploy the code to _dist_ directory
+
+9. Optionally, run `gulp test` to validate JavaScript source files using [JSLint](http://www.jslint.com/)
 and HTML source files using [A11Y Project](http://a11yproject.com/)
 
-1. Optionally, run `gulp docs` to generate [JSDoc](http://usejsdoc.org/) API Documentation to _docs_ directory
+10. Optionally, run `gulp docs` to generate [JSDoc](http://usejsdoc.org/) API Documentation to _docs_ directory
 
-1. Open file `dist/index.html` in your web browser
+11. Open file `dist/index.html` in your web browser
 
 
 ## Final Notes
