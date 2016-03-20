@@ -28,31 +28,31 @@ To run and play the game locally, follow these steps:
 1. [Install Node.js](https://nodejs.org/en/download/)
 
 2. Install [Gulp](http://gulpjs.com/) globally:
-```
-$ npm install -g gulp
-```
+    ```
+    $ npm install -g gulp
+    ```
 
 3. Install [Bower](http://bower.io/) globally:
-```
-$ npm install -g bower
-```
+    ```
+    $ npm install -g bower
+    ```
 
 4. Clone this git repository:
-```
-$ git clone https://github.com/milanfort/frontend-nanodegree-arcade-game.git
-```
+    ```
+    $ git clone https://github.com/milanfort/frontend-nanodegree-arcade-game.git
+    ```
 
 5. Change your working directory to _frontend-nanodegree-arcade-game_
 
 6. Install development dependencies:
-```
-$ npm install
-```
+    ```
+    $ npm install
+    ```
 
 7. Install client-side dependencies:
-```
-$ bower install
-```
+    ```
+    $ bower install
+    ```
 
 8. Run `gulp` to deploy the code to _dist_ directory
 
